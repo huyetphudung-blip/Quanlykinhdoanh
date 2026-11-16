@@ -671,7 +671,7 @@
     .pos-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 10px;
     }
 
     .pos-item {
@@ -683,16 +683,28 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 6px;
-      transition: border-color 0.15s, background-color 0.15s;
+      transition: transform 0.08s ease, border-color 0.15s, background-color 0.15s;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      cursor: pointer;
+    }
+
+    .pos-item:active {
+      transform: scale(0.985);
     }
 
     .pos-item.selected {
       border-color: var(--accent);
       background: #FFFBEB;
+      box-shadow: 0 2px 8px rgba(180, 83, 9, 0.12);
     }
 
     .pos-item-top {
-      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4px;
     }
 
     .pos-item-name {
@@ -707,7 +719,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 4px;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .pos-price {
@@ -720,26 +732,41 @@
     .qty-stepper {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 3px;
       background: var(--subtle);
       border-radius: 8px;
       padding: 2px;
+      border: 1px solid var(--border);
+    }
+
+    .pos-item.selected .qty-stepper {
+      background: #FFFFFF;
+      border-color: #FDE68A;
     }
 
     .qty-btn {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border: none;
       border-radius: 6px;
       background: #FFFFFF;
       color: var(--ink);
       font-size: 16px;
       font-weight: 800;
+      line-height: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .qty-btn:active {
+      transform: scale(0.92);
+      background: var(--border);
     }
 
     .qty-btn.plus {
@@ -747,11 +774,15 @@
       color: #FFFFFF;
     }
 
+    .qty-btn.plus:active {
+      background: #92400E;
+    }
+
     .qty-val {
-      min-width: 18px;
+      min-width: 20px;
       text-align: center;
       font-weight: 800;
-      font-size: 13.5px;
+      font-size: 14px;
       font-variant-numeric: tabular-nums;
     }
 
@@ -1015,10 +1046,18 @@
           <div class="chips" id="report-day-tabs" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border);"></div>
         </div>
 
-        <div class="profit-hero" id="rep-profit-card">
-          <div class="lbl">LỢI NHUẬN (DOANH THU − CHI PHÍ)</div>
-          <div class="val" id="rep-profit">0 đ</div>
-          <div class="sub" id="rep-margin">Tỷ suất lợi nhuận: 0,0%</div>
+        <div id="rep-profit-grid" style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px; align-items: stretch;">
+          <div class="profit-hero" id="rep-profit-card" style="margin-bottom: 0; padding: 14px;">
+            <div class="lbl" id="rep-profit-lbl">LỢI NHUẬN GỘP</div>
+            <div class="val" id="rep-profit" style="font-size: 21px;">0 đ</div>
+            <div class="sub" id="rep-margin">Tỷ suất lợi nhuận: 0,0%</div>
+          </div>
+
+          <div class="profit-hero" id="rep-daily-profit-card" style="display: none; margin-bottom: 0; padding: 18px 16px; border-width: 2px; box-shadow: 0 4px 12px rgba(21, 128, 61, 0.12);">
+            <div class="lbl" id="rep-daily-profit-lbl" style="font-size: 13.5px; font-weight: 800; letter-spacing: 0.2px;">LỢI NHUẬN NGÀY</div>
+            <div class="val" id="rep-daily-profit" style="font-size: 26px; margin-top: 6px;">0 đ</div>
+            <div class="sub" id="rep-daily-profit-sub" style="font-size: 12.5px; font-weight: 600; margin-top: 6px;">Hôm nay − Hôm qua</div>
+          </div>
         </div>
 
         <div class="kpi-2">
@@ -1476,7 +1515,7 @@
           </span>
           <div style="text-align:left; min-width:0;">
             <div style="font-weight:700; font-size:14.5px;">Mặt hàng bán ra (Menu & Định lượng)</div>
-            <div style="font-size:12px; color:var(--muted);">Thiết lập giá bán, thành phần & định lượng từng chảo</div>
+            <div style="font-size:12px; color:var(--muted);">Quản lý danh mục, giá bán, thành phần & định lượng</div>
           </div>
         </div>
         <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
@@ -2378,7 +2417,52 @@
         const profitCard = document.getElementById("rep-profit-card");
         profitCard.className = profit < 0 ? "profit-hero loss" : "profit-hero";
         document.getElementById("rep-profit").textContent = formatMoney(profit);
-        document.getElementById("rep-margin").textContent = `Tỷ suất lợi nhuận: ${margin.toFixed(1)}%`;
+        document.getElementById("rep-margin").textContent = `Tỷ suất: ${margin.toFixed(1)}%`;
+
+        const isSingleDayView = currentPeriod === "today" || (currentPeriod && currentPeriod.startsWith("day:"));
+        const profitGridEl = document.getElementById("rep-profit-grid");
+        const dailyProfitCardEl = document.getElementById("rep-daily-profit-card");
+        const profitLblEl = document.getElementById("rep-profit-lbl");
+        const profitValEl = document.getElementById("rep-profit");
+        const profitSubEl = document.getElementById("rep-margin");
+
+        if (isSingleDayView && profitGridEl && dailyProfitCardEl) {
+          const targetDayIso = currentPeriod === "today" ? TODAY : currentPeriod.slice(4);
+          const [yy, mm, dd] = targetDayIso.split("-").map(Number);
+          const prevDateObj = new Date(yy, mm - 1, dd - 1);
+          const prevDayIso = `${prevDateObj.getFullYear()}-${String(prevDateObj.getMonth() + 1).padStart(2, "0")}-${String(prevDateObj.getDate()).padStart(2, "0")}`;
+
+          let prevRev = 0, prevCost = 0;
+          records.forEach(r => {
+            if (r.date === prevDayIso) {
+              if (r.type === "thu") prevRev += Number(r.amount) || 0;
+              else prevCost += Number(r.amount) || 0;
+            }
+          });
+          const prevGrossProfit = prevRev - prevCost;
+          const netDailyProfit = profit - prevGrossProfit;
+
+          profitGridEl.style.gridTemplateColumns = "0.82fr 1.38fr";
+          profitCard.style.padding = "12px";
+          if (profitLblEl) profitLblEl.style.fontSize = "12px";
+          if (profitValEl) profitValEl.style.fontSize = "18px";
+          if (profitSubEl) profitSubEl.style.fontSize = "11.5px";
+
+          dailyProfitCardEl.style.display = "flex";
+          dailyProfitCardEl.style.flexDirection = "column";
+          dailyProfitCardEl.style.justifyContent = "center";
+          dailyProfitCardEl.className = netDailyProfit < 0 ? "profit-hero loss" : "profit-hero";
+          dailyProfitCardEl.style.borderColor = netDailyProfit < 0 ? "#FCA5A5" : "#86EFAC";
+          document.getElementById("rep-daily-profit").textContent = formatMoney(netDailyProfit);
+          document.getElementById("rep-daily-profit-sub").textContent = `Hôm qua (${formatShortDate(prevDayIso)}): ${formatMoney(prevGrossProfit)}`;
+        } else if (profitGridEl && dailyProfitCardEl) {
+          profitGridEl.style.gridTemplateColumns = "1fr";
+          profitCard.style.padding = "16px";
+          if (profitLblEl) profitLblEl.style.fontSize = "13px";
+          if (profitValEl) profitValEl.style.fontSize = "26px";
+          if (profitSubEl) profitSubEl.style.fontSize = "12.5px";
+          dailyProfitCardEl.style.display = "none";
+        }
 
         document.getElementById("rep-rev").textContent = formatMoney(rev);
         document.getElementById("rep-rev-split").textContent = `TK: ${formatMoney(tk)} | TM: ${formatMoney(tm)}`;
@@ -2386,7 +2470,6 @@
         document.getElementById("rep-cost").textContent = formatMoney(cost);
         document.getElementById("rep-cost-pct").textContent = `Chiếm ${costPct.toFixed(1)}% doanh thu`;
 
-        const isSingleDayView = currentPeriod === "today" || (currentPeriod && currentPeriod.startsWith("day:"));
         const dailyTitleEl = document.getElementById("rep-daily-title");
         const dailyBadgeEl = document.getElementById("rep-thu-count-badge");
         const dailyHeadEl = document.getElementById("rep-daily-head");
@@ -2726,8 +2809,8 @@
           }
         });
 
-        const combos = Object.values(itemPerfMap).filter(x => x.group === "combo").sort((a, b) => b.qty - a.qty);
-        const addons = Object.values(itemPerfMap).filter(x => x.group !== "combo").sort((a, b) => b.qty - a.qty);
+        const combos = Object.values(itemPerfMap).filter(x => isComboGroupKey(x.group)).sort((a, b) => b.qty - a.qty);
+        const addons = Object.values(itemPerfMap).filter(x => !isComboGroupKey(x.group)).sort((a, b) => b.qty - a.qty);
 
         if (combos.length > 0 && combos[0].qty > 0) {
           document.getElementById("ana-top-combo").textContent = `${combos[0].name} (${combos[0].qty} suất)`;
@@ -2762,7 +2845,7 @@
                   <span>${m.qty} phần (${formatMoney(m.rev)})</span>
                 </div>
                 <div class="bar-track">
-                  <div class="bar-fill" style="width:${Math.min(100, pct)}%; background:${m.group === "combo" ? "var(--green)" : "var(--accent)"};"></div>
+                  <div class="bar-fill" style="width:${Math.min(100, pct)}%; background:${isComboGroupKey(m.group) ? "var(--green)" : "var(--accent)"};"></div>
                 </div>
               </div>
             `;
@@ -3889,15 +3972,15 @@
             const qty = posCart[item.id] || 0;
             return `
               <div class="pos-item ${qty > 0 ? "selected" : ""}" data-pos-card="${item.id}">
-                <div class="pos-item-top" data-pos-tap="${item.id}">
+                <div class="pos-item-top">
                   <div class="pos-item-name">${item.name}</div>
                 </div>
                 <div class="pos-item-bottom">
                   <span class="pos-price">${formatMoney(item.price)}</span>
                   <div class="qty-stepper">
-                    <button type="button" class="qty-btn" data-pos-dec="${item.id}">−</button>
-                    <span class="qty-val">${qty}</span>
-                    <button type="button" class="qty-btn plus" data-pos-inc="${item.id}">+</button>
+                    <button type="button" class="qty-btn" data-pos-dec="${item.id}" aria-label="Giảm">−</button>
+                    <span class="qty-val" data-pos-qty="${item.id}">${qty}</span>
+                    <button type="button" class="qty-btn plus" data-pos-inc="${item.id}" aria-label="Tăng">+</button>
                   </div>
                 </div>
               </div>
@@ -3909,6 +3992,18 @@
             <div class="pos-grid">${cardsHtml}</div>
           `;
         }).join("");
+      }
+
+      function updateSinglePosCardUI(itemId) {
+        const qty = posCart[itemId] || 0;
+        const card = document.querySelector(`#pos-menu-container [data-pos-card="${itemId}"]`);
+        if (card) {
+          card.classList.toggle("selected", qty > 0);
+          const qtyEl = card.querySelector(`[data-pos-qty="${itemId}"]`);
+          if (qtyEl) qtyEl.textContent = qty;
+        } else {
+          renderPosMenu();
+        }
       }
 
       function updatePosCartUI() {
@@ -3948,29 +4043,35 @@
       document.getElementById("pos-menu-container").addEventListener("click", (e) => {
         const incBtn = e.target.closest("[data-pos-inc]");
         const decBtn = e.target.closest("[data-pos-dec]");
-        const tapTop = e.target.closest("[data-pos-tap]");
+        const stepper = e.target.closest(".qty-stepper");
+        const card = e.target.closest("[data-pos-card]");
 
         if (incBtn) {
+          e.stopPropagation();
           const id = incBtn.dataset.posInc;
           posCart[id] = (posCart[id] || 0) + 1;
-          renderPosMenu();
+          updateSinglePosCardUI(id);
           updatePosCartUI();
           return;
         }
         if (decBtn) {
+          e.stopPropagation();
           const id = decBtn.dataset.posDec;
           if ((posCart[id] || 0) > 0) {
             posCart[id] -= 1;
             if (posCart[id] <= 0) delete posCart[id];
-            renderPosMenu();
+            updateSinglePosCardUI(id);
             updatePosCartUI();
           }
           return;
         }
-        if (tapTop) {
-          const id = tapTop.dataset.posTap;
+        if (stepper) {
+          return;
+        }
+        if (card) {
+          const id = card.dataset.posCard;
           posCart[id] = (posCart[id] || 0) + 1;
-          renderPosMenu();
+          updateSinglePosCardUI(id);
           updatePosCartUI();
         }
       });
@@ -4639,73 +4740,113 @@
 
       document.getElementById("btn-open-cat-settings").addEventListener("click", openCategorySettingsModal);
 
-      // Cài đặt mặt hàng bán ra POS
+      // ===== Cài đặt mặt hàng bán ra POS + Danh mục =====
+      function escHtml(v) {
+        return String(v == null ? "" : v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      // Đồng bộ mọi nơi dùng danh mục: tab Bán hàng, Cài đặt, báo cáo, phân tích
+      function syncPosViews() {
+        renderPosMenu();
+        updatePosCartUI();
+        renderPosDayStats();
+        renderCategorySelects();
+        renderReport();
+        renderAnalysis();
+      }
+
+      function ensureGroupsForItems() {
+        const known = new Set(posGroupsList.map(g => g.key));
+        let changed = false;
+        posItemsList.forEach(it => {
+          if (it.group && !known.has(it.group)) {
+            known.add(it.group);
+            posGroupsList.push({ key: it.group, label: it.group, isCombo: it.group === "combo" });
+            changed = true;
+          }
+        });
+        if (changed) savePosGroups();
+      }
+
       function openPosMenuSettingsModal() {
-        const rowsHtml = posItemsList.map((item, idx) => {
-          const totalCost = (item.ingredients || []).reduce((s, x) => s + (Number(x.cost) || 0), 0);
-          const profit = (Number(item.price) || 0) - totalCost;
-          const margin = (Number(item.price) || 0) > 0 ? ((profit / (Number(item.price) || 0)) * 100).toFixed(1) : "0.0";
-          const profitTag = totalCost > 0 
-            ? `<span style="font-size:12px; font-weight:700; color:${profit >= 0 ? "var(--green)" : "var(--red)"}; margin-left:6px;">Lãi: ${formatMoney(profit)} (${margin}%)</span>`
-            : `<span style="font-size:11.5px; color:var(--muted); margin-left:6px;">(Chưa định lượng)</span>`;
+        ensureGroupsForItems();
+
+        const sectionsHtml = posGroupsList.map(g => {
+          const rows = [];
+          posItemsList.forEach((item, idx) => { if (item.group === g.key) rows.push({ item, idx }); });
+
+          const rowsHtml = rows.map((r, pos) => {
+            const item = r.item;
+            const idx = r.idx;
+            const totalCost = (item.ingredients || []).reduce((s, x) => s + (Number(x.cost) || 0), 0);
+            const profit = (Number(item.price) || 0) - totalCost;
+            const margin = (Number(item.price) || 0) > 0 ? ((profit / (Number(item.price) || 0)) * 100).toFixed(1) : "0.0";
+            const profitTag = totalCost > 0
+              ? `<span style="font-size:12px; font-weight:700; color:${profit >= 0 ? "var(--green)" : "var(--red)"}; margin-left:6px;">Lãi: ${formatMoney(profit)} (${margin}%)</span>`
+              : `<span style="font-size:11.5px; color:var(--muted); margin-left:6px;">(Chưa định lượng)</span>`;
+            return `
+              <div class="cat-item-row" style="gap:6px;">
+                <div style="display:flex; flex-direction:column; gap:2px; flex-shrink:0;">
+                  <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;${pos === 0 ? " opacity:0.3;" : ""}" data-pos-up="${idx}" ${pos === 0 ? "disabled" : ""}>▲</button>
+                  <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;${pos === rows.length - 1 ? " opacity:0.3;" : ""}" data-pos-down="${idx}" ${pos === rows.length - 1 ? "disabled" : ""}>▼</button>
+                </div>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-weight:700; font-size:14px;">${escHtml(item.name)} <span style="font-size:12px; color:var(--green); font-weight:700;">${formatMoney(item.price)}</span>${profitTag}</div>
+                  <div style="font-size:12px; color:var(--muted);">${escHtml(item.desc || "")}</div>
+                </div>
+                <div style="display:flex; gap:6px; flex-shrink:0;">
+                  <button type="button" class="mini-btn" data-pos-edit="${idx}">Sửa</button>
+                  <button type="button" class="mini-btn del" data-pos-del="${idx}">Xóa</button>
+                </div>
+              </div>
+            `;
+          }).join("");
 
           return `
-            <div class="cat-item-row" style="gap:6px;">
-              <div style="display:flex; flex-direction:column; gap:2px; flex-shrink:0;">
-                <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;" data-pos-up="${idx}" ${idx === 0 ? "disabled style='opacity:0.3;'" : ""}>▲</button>
-                <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;" data-pos-down="${idx}" ${idx === posItemsList.length - 1 ? "disabled style='opacity:0.3;'" : ""}>▼</button>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 10px; background:var(--subtle); border-radius:10px; margin-bottom:8px;">
+                <div style="font-weight:800; font-size:13.5px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escHtml(g.label)} <span style="color:var(--muted); font-weight:600;">(${rows.length})</span></div>
+                <button type="button" class="mini-btn" style="flex-shrink:0;" data-pos-new="${escHtml(g.key)}">+ Thêm món</button>
               </div>
-              <div style="flex:1; min-width:0;">
-                <div style="font-weight:700; font-size:14px;">${item.name} <span style="font-size:12px; color:var(--green); font-weight:700;">${formatMoney(item.price)}</span>${profitTag}</div>
-                <div style="font-size:12px; color:var(--muted);">${item.desc || ""} • Nhóm: ${getPosGroupLabel(item.group)}</div>
-              </div>
-              <div style="display:flex; gap:6px; flex-shrink:0;">
-                <button type="button" class="mini-btn" data-pos-edit="${idx}">Sửa</button>
-                <button type="button" class="mini-btn del" data-pos-del="${idx}">Xóa</button>
-              </div>
+              ${rowsHtml || `<div style="font-size:12.5px; color:var(--muted); padding:4px 10px;">Chưa có món nào trong danh mục này.</div>`}
             </div>
           `;
         }).join("");
 
         modalCard.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
             <h3 style="margin:0;">Mặt hàng bán ra (${posItemsList.length})</h3>
-            <button type="button" class="btn-submit" id="m-btn-new-pos" style="width:auto; min-height:36px; padding:0 12px; margin:0; font-size:13px;">+ Thêm món</button>
+            <button type="button" class="btn-outline" id="m-btn-manage-groups" style="width:auto; min-height:36px; padding:0 12px; margin:0; font-size:13px;">⚙ Danh mục</button>
           </div>
-          <div style="max-height:58vh; overflow-y:auto;">${rowsHtml}</div>
+          <div style="max-height:60vh; overflow-y:auto;">${sectionsHtml || `<div style="font-size:13px; color:var(--muted); padding:12px 0;">Chưa có danh mục nào. Bấm “⚙ Danh mục” để tạo mới.</div>`}</div>
           <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-close-pos-set">Đóng</button>
         `;
         modalBg.classList.add("open");
 
         document.getElementById("m-close-pos-set").addEventListener("click", closeModal);
-        document.getElementById("m-btn-new-pos").addEventListener("click", () => openPosItemFormModal(-1));
+        document.getElementById("m-btn-manage-groups").addEventListener("click", openPosGroupsModal);
 
-        modalCard.querySelectorAll("[data-pos-up]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const idx = Number(btn.dataset.posUp);
-            if (idx > 0) {
-              const temp = posItemsList[idx];
-              posItemsList[idx] = posItemsList[idx - 1];
-              posItemsList[idx - 1] = temp;
-              savePosMenu();
-              renderPosMenu();
-              openPosMenuSettingsModal();
-            }
-          });
+        modalCard.querySelectorAll("[data-pos-new]").forEach(btn => {
+          btn.addEventListener("click", () => openPosItemFormModal(-1, btn.dataset.posNew));
         });
 
+        function swapWithNeighbor(idx, dir) {
+          const g = posItemsList[idx].group;
+          let j = idx + dir;
+          while (j >= 0 && j < posItemsList.length && posItemsList[j].group !== g) j += dir;
+          if (j < 0 || j >= posItemsList.length) return;
+          const tmp = posItemsList[idx];
+          posItemsList[idx] = posItemsList[j];
+          posItemsList[j] = tmp;
+          savePosMenu();
+          renderPosMenu();
+          openPosMenuSettingsModal();
+        }
+        modalCard.querySelectorAll("[data-pos-up]").forEach(btn => {
+          btn.addEventListener("click", () => swapWithNeighbor(Number(btn.dataset.posUp), -1));
+        });
         modalCard.querySelectorAll("[data-pos-down]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const idx = Number(btn.dataset.posDown);
-            if (idx < posItemsList.length - 1) {
-              const temp = posItemsList[idx];
-              posItemsList[idx] = posItemsList[idx + 1];
-              posItemsList[idx + 1] = temp;
-              savePosMenu();
-              renderPosMenu();
-              openPosMenuSettingsModal();
-            }
-          });
+          btn.addEventListener("click", () => swapWithNeighbor(Number(btn.dataset.posDown), 1));
         });
 
         modalCard.querySelectorAll("[data-pos-edit]").forEach(btn => {
@@ -4716,18 +4857,176 @@
             const idx = Number(btn.dataset.posDel);
             const removed = posItemsList.splice(idx, 1)[0];
             savePosMenu();
-            renderPosMenu();
-            renderCategorySelects();
+            syncPosViews();
             openPosMenuSettingsModal();
             showToast(`Đã xóa món "${removed.name}"`);
           });
         });
       }
 
-      function openPosItemFormModal(idx) {
+      // ----- Quản lý danh mục -----
+      function openPosGroupsModal() {
+        ensureGroupsForItems();
+        const rowsHtml = posGroupsList.map((g, idx) => {
+          const count = posItemsList.filter(i => i.group === g.key).length;
+          return `
+            <div class="cat-item-row" style="gap:6px;">
+              <div style="display:flex; flex-direction:column; gap:2px; flex-shrink:0;">
+                <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;${idx === 0 ? " opacity:0.3;" : ""}" data-grp-up="${idx}" ${idx === 0 ? "disabled" : ""}>▲</button>
+                <button type="button" class="mini-btn" style="padding:2px 6px; font-size:11px; min-height:0;${idx === posGroupsList.length - 1 ? " opacity:0.3;" : ""}" data-grp-down="${idx}" ${idx === posGroupsList.length - 1 ? "disabled" : ""}>▼</button>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-weight:700; font-size:14px;">${escHtml(g.label)}</div>
+                <div style="font-size:12px; color:var(--muted);">${count} món${g.isCombo ? " • Tính suất chảo" : ""}</div>
+              </div>
+              <div style="display:flex; gap:6px; flex-shrink:0;">
+                <button type="button" class="mini-btn" data-grp-edit="${idx}">Sửa</button>
+                <button type="button" class="mini-btn del" data-grp-del="${idx}">Xóa</button>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        modalCard.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+            <h3 style="margin:0;">Danh mục (${posGroupsList.length})</h3>
+            <button type="button" class="btn-submit" id="m-grp-new" style="width:auto; min-height:36px; padding:0 12px; margin:0; font-size:13px;">+ Thêm danh mục</button>
+          </div>
+          <div style="font-size:12px; color:var(--muted); margin-bottom:8px;">Thứ tự ở đây chính là thứ tự hiển thị trên tab Bán hàng.</div>
+          <div style="max-height:56vh; overflow-y:auto;">${rowsHtml || `<div style="font-size:13px; color:var(--muted); padding:12px 0;">Chưa có danh mục nào.</div>`}</div>
+          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-grp-back">Quay lại danh sách món</button>
+        `;
+        modalBg.classList.add("open");
+
+        document.getElementById("m-grp-back").addEventListener("click", openPosMenuSettingsModal);
+        document.getElementById("m-grp-new").addEventListener("click", () => openPosGroupFormModal(-1));
+
+        function moveGroup(idx, dir) {
+          const j = idx + dir;
+          if (j < 0 || j >= posGroupsList.length) return;
+          const tmp = posGroupsList[idx];
+          posGroupsList[idx] = posGroupsList[j];
+          posGroupsList[j] = tmp;
+          savePosGroups();
+          syncPosViews();
+          openPosGroupsModal();
+        }
+        modalCard.querySelectorAll("[data-grp-up]").forEach(b => b.addEventListener("click", () => moveGroup(Number(b.dataset.grpUp), -1)));
+        modalCard.querySelectorAll("[data-grp-down]").forEach(b => b.addEventListener("click", () => moveGroup(Number(b.dataset.grpDown), 1)));
+        modalCard.querySelectorAll("[data-grp-edit]").forEach(b => b.addEventListener("click", () => openPosGroupFormModal(Number(b.dataset.grpEdit))));
+        modalCard.querySelectorAll("[data-grp-del]").forEach(b => b.addEventListener("click", () => openPosGroupDeleteModal(Number(b.dataset.grpDel))));
+      }
+
+      function openPosGroupFormModal(idx) {
+        const isNew = idx < 0;
+        const g = isNew ? { key: "", label: "", isCombo: false } : posGroupsList[idx];
+
+        modalCard.innerHTML = `
+          <h3>${isNew ? "Tạo danh mục mới" : "Sửa danh mục"}</h3>
+          <div class="form-group">
+            <label>Tên danh mục</label>
+            <input type="text" id="grp-f-name" value="${escHtml(g.label)}" placeholder="VD: Món thêm, Nước giải khát..." />
+          </div>
+          <label style="display:flex; align-items:center; gap:8px; font-size:13px; margin:4px 0 14px; cursor:pointer;">
+            <input type="checkbox" id="grp-f-combo" ${g.isCombo ? "checked" : ""} style="width:18px; height:18px; min-height:0; margin:0;" />
+            <span>Món trong danh mục này tính là <strong>suất chảo</strong></span>
+          </label>
+          <div class="modal-btns">
+            <button type="button" class="btn-outline" id="grp-f-back">Quay lại</button>
+            <button type="button" class="btn-submit" style="margin:0;" id="grp-f-save">${isNew ? "Tạo danh mục" : "Lưu"}</button>
+          </div>
+        `;
+        modalBg.classList.add("open");
+        const nameEl = document.getElementById("grp-f-name");
+        if (nameEl) nameEl.focus();
+
+        document.getElementById("grp-f-back").addEventListener("click", openPosGroupsModal);
+        document.getElementById("grp-f-save").addEventListener("click", () => {
+          const label = nameEl.value.trim();
+          const isCombo = document.getElementById("grp-f-combo").checked;
+          if (!label) { showToast("Tên danh mục không được để trống!"); return; }
+          const dup = posGroupsList.some((x, i) => i !== idx && x.label.trim().toLowerCase() === label.toLowerCase());
+          if (dup) { showToast("Đã có danh mục trùng tên!"); return; }
+
+          if (isNew) {
+            posGroupsList.push({ key: "grp_" + Date.now().toString(36), label, isCombo });
+          } else {
+            g.label = label;
+            const comboChanged = !!g.isCombo !== isCombo;
+            g.isCombo = isCombo;
+            if (comboChanged) {
+              posItemsList.forEach(it => { if (it.group === g.key) it.chaoCount = isCombo ? 1 : 0; });
+              savePosMenu(true);
+            }
+          }
+          savePosGroups();
+          syncPosViews();
+          openPosGroupsModal();
+          showToast(isNew ? "Đã tạo danh mục mới!" : "Đã cập nhật danh mục!");
+        });
+      }
+
+      function openPosGroupDeleteModal(idx) {
+        const g = posGroupsList[idx];
+        const count = posItemsList.filter(i => i.group === g.key).length;
+
+        function finishDelete(msg) {
+          posGroupsList.splice(idx, 1);
+          savePosGroups(true);
+          savePosMenu();
+          syncPosViews();
+          openPosGroupsModal();
+          showToast(msg);
+        }
+
+        if (count === 0) {
+          finishDelete(`Đã xóa danh mục "${g.label}"`);
+          return;
+        }
+
+        const others = posGroupsList.filter((_, i) => i !== idx);
+        const moveHtml = others.length > 0 ? `
+          <div class="form-group">
+            <label>Chuyển ${count} món sang danh mục</label>
+            <select id="grp-del-target">${others.map(o => `<option value="${escHtml(o.key)}">${escHtml(o.label)}</option>`).join("")}</select>
+          </div>
+          <button type="button" class="btn-submit" style="margin:0 0 8px;" id="grp-del-move">Chuyển món &amp; xóa danh mục</button>
+        ` : `<div style="font-size:12.5px; color:var(--muted); margin-bottom:10px;">Không còn danh mục nào khác để chuyển món sang.</div>`;
+
+        modalCard.innerHTML = `
+          <h3>Xóa danh mục “${escHtml(g.label)}”</h3>
+          <div style="font-size:13px; margin-bottom:12px;">Danh mục này đang có <strong>${count} món</strong>. Bạn muốn xử lý thế nào?</div>
+          ${moveHtml}
+          <button type="button" class="btn-outline" style="width:100%; margin-bottom:8px; color:var(--red); border-color:var(--red);" id="grp-del-all">Xóa luôn cả ${count} món</button>
+          <button type="button" class="btn-outline" style="width:100%;" id="grp-del-cancel">Hủy</button>
+        `;
+        modalBg.classList.add("open");
+
+        document.getElementById("grp-del-cancel").addEventListener("click", openPosGroupsModal);
+        const moveBtn = document.getElementById("grp-del-move");
+        if (moveBtn) {
+          moveBtn.addEventListener("click", () => {
+            const target = document.getElementById("grp-del-target").value;
+            const tg = posGroupsList.find(x => x.key === target);
+            posItemsList.forEach(it => {
+              if (it.group === g.key) {
+                it.group = target;
+                it.chaoCount = tg && tg.isCombo ? 1 : 0;
+              }
+            });
+            finishDelete(`Đã xóa danh mục "${g.label}", món được chuyển sang "${tg ? tg.label : target}"`);
+          });
+        }
+        document.getElementById("grp-del-all").addEventListener("click", () => {
+          posItemsList = posItemsList.filter(it => it.group !== g.key);
+          finishDelete(`Đã xóa danh mục "${g.label}" cùng ${count} món`);
+        });
+      }
+
+      function openPosItemFormModal(idx, presetGroup) {
         const isNew = idx < 0;
         const item = isNew
-          ? { id: "item_" + Date.now(), name: "", desc: "", price: 25000, group: "combo", chaoCount: 1, ingredients: [] }
+          ? { id: "item_" + Date.now(), name: "", desc: "", price: 25000, group: presetGroup || (posGroupsList[0] ? posGroupsList[0].key : "combo"), chaoCount: isComboGroupKey(presetGroup || (posGroupsList[0] ? posGroupsList[0].key : "combo")) ? 1 : 0, ingredients: [] }
           : posItemsList[idx];
 
         let draftIngredients = Array.isArray(item.ingredients)
@@ -4908,8 +5207,7 @@
               posItemsList[idx] = item;
             }
             savePosMenu();
-            renderPosMenu();
-            renderCategorySelects();
+            syncPosViews();
             openPosMenuSettingsModal();
             showToast(isNew ? "Đã thêm món mới!" : "Đã cập nhật món!");
           };
