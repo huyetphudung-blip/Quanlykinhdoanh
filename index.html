@@ -4735,7 +4735,7 @@
           : [];
 
         const groupOpts = posGroupsList.map(g => `<option value="${g.key}" ${item.group === g.key ? "selected" : ""}>${g.label}</option>`).join("");
-        const unitOptsList = ["g", "quả", "ổ", "cây", "ml", "lát", "lon", "chai", "bịch", "kg"];
+        const unitOptsList = ["g", "quả", "ổ", "cây", "ml", "lát", "lon", "chai", "bịch", "kg", "phần", "cái", "khác"];
 
         function updateItemProfitSummary() {
           const totalCost = draftIngredients.reduce((s, x) => s + (Number(x.cost) || 0), 0);
@@ -4882,7 +4882,7 @@
 
         const saveBtn = document.getElementById("pos-f-save");
         if (saveBtn) {
-          saveBtn.addEventListener("click", () => {
+          saveBtn.onclick = () => {
             const nameEl = document.getElementById("pos-f-name");
             const priceEl = document.getElementById("pos-f-price");
             const groupEl = document.getElementById("pos-f-group");
@@ -4912,7 +4912,7 @@
             renderCategorySelects();
             openPosMenuSettingsModal();
             showToast(isNew ? "Đã thêm món mới!" : "Đã cập nhật món!");
-          });
+          };
         }
       }
 
