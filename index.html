@@ -39,9 +39,9 @@
       background: var(--bg);
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 15px;
+      font-size: 16px; /* Đặt tối thiểu 16px để Safari trên iOS không bị tự động zoom khi focus ô nhập liệu */
       line-height: 1.45;
-      padding-bottom: 86px;
+      padding-bottom: 60px;
     }
 
     .topbar {
@@ -224,7 +224,7 @@
       padding: 10px 12px;
       border: 1px solid #D1D5DB;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 16px; /* Khắc phục lỗi tự động zoom trên iOS Safari */
       font-family: inherit;
       color: var(--ink);
       background: #FFFFFF;
@@ -621,7 +621,7 @@
       box-shadow: 0 -4px 14px rgba(180, 83, 9, 0.08);
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+      padding: 4px 6px calc(2px + env(safe-area-inset-bottom, 0px));
       gap: 4px;
     }
 
@@ -818,42 +818,9 @@
 </head>
 <body>
 
-  <header class="topbar">
-    <div class="brand-wrap">
-      <div class="brand-logo" aria-hidden="true">
-        <div class="brand-logo-inner">
-          <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-            <path d="M18 32C11 31 6.5 24 8 15C10.5 18 13.5 23 18 32Z" fill="#22C55E"/>
-            <path d="M18 32C25 31 29.5 24 28 15C25.5 18 22.5 23 18 32Z" fill="#16A34A"/>
-            <ellipse cx="18" cy="17.5" rx="6.8" ry="11.5" fill="#FBBF24"/>
-            <ellipse cx="16.5" cy="16.5" rx="4.5" ry="9" fill="#FDE047" opacity="0.6"/>
-            <circle cx="15.5" cy="10.5" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="20.5" cy="10.5" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="14.5" cy="14" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="21.5" cy="14" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="15" cy="23.5" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="21" cy="23.5" r="1.1" fill="#D97706" opacity="0.55"/>
-            <circle cx="15.4" cy="17.2" r="1.35" fill="#1C1917"/>
-            <circle cx="20.6" cy="17.2" r="1.35" fill="#1C1917"/>
-            <circle cx="15.8" cy="16.8" r="0.45" fill="#FFFFFF"/>
-            <circle cx="21" cy="16.8" r="0.45" fill="#FFFFFF"/>
-            <ellipse cx="13.5" cy="19" rx="1.4" ry="0.9" fill="#FB7185" opacity="0.85"/>
-            <ellipse cx="22.5" cy="19" rx="1.4" ry="0.9" fill="#FB7185" opacity="0.85"/>
-            <path d="M16.4 19.6Q18 21.3 19.6 19.6" stroke="#1C1917" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-            <path d="M9.5 22C13 22.5 16 26 18 32.5C13.5 31.5 10 27.5 9.5 22Z" fill="#4ADE80"/>
-            <path d="M26.5 22C23 22.5 20 26 18 32.5C22.5 31.5 26 27.5 26.5 22Z" fill="#22C55E"/>
-          </svg>
-        </div>
-      </div>
-      <div class="brand-text">
-        <h1>Quản lý kinh doanh - Nhà Bắp</h1>
-        <p>Bánh Mỳ Chảo • Sổ Thu – Chi</p>
-      </div>
-    </div>
-    <span class="date-badge" id="today-badge"></span>
-  </header>
+  <!-- Đã xóa thanh header theo yêu cầu -->
 
-  <main class="container">
+  <main class="container" style="padding-top: 14px;">
 
     <!-- TAB 0: BÁN HÀNG NHANH -->
     <section id="view-pos" class="view active">
@@ -1026,12 +993,12 @@
 
     <!-- TAB QUẢN LÝ TỔNG HỢP (GỘP BÁO CÁO • PHÂN TÍCH • NGUYÊN VẬT LIỆU • CÔNG THỨC) -->
     <section id="view-hub" class="view">
-      <div class="card" style="padding: 8px; margin-bottom: 12px; position: sticky; top: 69px; z-index: 20;">
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;" id="hub-subnav">
-          <button type="button" class="mini-btn" data-hub-tab="sub-report" style="min-height: 38px; font-size: 12px; padding: 4px 2px; background: var(--accent); color: #FFFFFF; border-color: var(--accent);">Báo Cáo</button>
-          <button type="button" class="mini-btn" data-hub-tab="sub-analysis" style="min-height: 38px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink);">Phân Tích</button>
-          <button type="button" class="mini-btn" data-hub-tab="sub-materials" style="min-height: 38px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink);">Nguyên VL</button>
-          <button type="button" class="mini-btn" data-hub-tab="sub-recipes" style="min-height: 38px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink);">Công Thức</button>
+      <div class="card" style="padding: 10px 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;" id="hub-subnav">
+          <button type="button" class="mini-btn" data-hub-tab="sub-report" style="min-height: 40px; font-size: 12px; padding: 4px 2px; background: var(--accent); color: #FFFFFF; border-color: var(--accent); font-weight: 700;">Báo Cáo</button>
+          <button type="button" class="mini-btn" data-hub-tab="sub-analysis" style="min-height: 40px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink); font-weight: 700;">Phân Tích</button>
+          <button type="button" class="mini-btn" data-hub-tab="sub-materials" style="min-height: 40px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink); font-weight: 700;">Nguyên VL</button>
+          <button type="button" class="mini-btn" data-hub-tab="sub-recipes" style="min-height: 40px; font-size: 12px; padding: 4px 2px; background: var(--subtle); color: var(--ink); font-weight: 700;">Công Thức</button>
         </div>
       </div>
 
@@ -1457,8 +1424,24 @@
           <button type="button" class="btn-outline" id="btn-link-backup-file">Chọn tệp sao lưu cũ</button>
         </div>
 
-        <button type="button" class="btn-outline" style="width:100%;" id="btn-restore-backup">Khôi phục dữ liệu từ tệp sao lưu (.JSON)</button>
+        <button type="button" class="btn-outline" style="width:100%; margin-bottom:8px;" id="btn-restore-backup">Khôi phục dữ liệu từ tệp sao lưu (.JSON)</button>
         <input type="file" id="input-restore-file" accept=".json,application/json" style="display:none;" />
+
+        <div style="border-top:1px dashed var(--border); padding-top:12px; margin-top:8px;">
+          <div style="font-weight:700; font-size:14px; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between;">
+            <span>☁️ Sao lưu đám mây (Google Drive)</span>
+            <span style="font-size:11.5px; color:var(--muted);" id="gdrive-status-lbl">Chưa kết nối</span>
+          </div>
+          <div class="action-row" style="grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:6px;">
+            <button type="button" class="btn-outline" id="btn-gdrive-connect" style="background:#1A73E8; color:#FFFFFF; border-color:#1A73E8; font-size:12.5px; padding:6px 8px;">Kết nối Drive</button>
+            <button type="button" class="btn-outline" id="btn-gdrive-guide" style="font-size:12.5px; padding:6px 8px;">Hướng dẫn Token</button>
+          </div>
+          <div class="action-row" style="grid-template-columns: 1fr 1fr; gap:6px;">
+            <button type="button" class="btn-outline" id="btn-gdrive-sync" style="display:none; font-size:12.5px; padding:6px 8px; background:var(--green-soft); color:var(--green); border-color:#BBF7D0;">⬆️ Tải lên Drive</button>
+            <button type="button" class="btn-outline" id="btn-gdrive-download" style="display:none; font-size:12.5px; padding:6px 8px; background:var(--accent-soft); color:var(--accent); border-color:#FDE68A;">⬇️ Tải xuống</button>
+          </div>
+        </div>
+
         <div style="font-size:12px; color:var(--muted); margin-top:8px;" id="last-backup-info">Chưa có bản sao lưu thủ công trong phiên này.</div>
       </div>
 
@@ -1673,6 +1656,7 @@
         autoBackupEnabled = localStorage.getItem(AUTO_BACKUP_KEY) === "1";
       } catch (e) {}
       let linkedFileHandle = null;
+      let gdriveAccessToken = null;
       let currentPeriod = "all";
 
       const elTodayBadge = document.getElementById("today-badge");
@@ -2110,7 +2094,10 @@
 
         if (rec.type === "thu") {
           modalCard.innerHTML = `
-            <h3>Sửa khoản Doanh Thu</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h3 style="margin:0;">Sửa khoản Doanh Thu</h3>
+              <button type="button" class="mini-btn del" id="m-del-record" style="padding:6px 12px; font-weight:700;">Xóa mục này</button>
+            </div>
             <div class="form-group">
               <label>Ngày bán</label>
               <input type="date" id="m-date" value="${rec.date}" />
@@ -2144,7 +2131,10 @@
           ).join("");
 
           modalCard.innerHTML = `
-            <h3>Sửa khoản Chi Phí</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <h3 style="margin:0;">Sửa khoản Chi Phí</h3>
+              <button type="button" class="mini-btn del" id="m-del-record" style="padding:6px 12px; font-weight:700;">Xóa mục này</button>
+            </div>
             <div class="row-2">
               <div class="form-group">
                 <label>Ngày chi</label>
@@ -2182,6 +2172,14 @@
 
         modalBg.classList.add("open");
         document.getElementById("m-cancel").addEventListener("click", closeModal);
+        document.getElementById("m-del-record").addEventListener("click", () => {
+          records = records.filter(r => r.id !== id);
+          saveRecords();
+          closeModal();
+          renderAll();
+          showToast("Đã xóa mục ghi chép");
+        });
+
         document.getElementById("m-save").addEventListener("click", () => {
           if (rec.type === "thu") {
             const tk = Number(document.getElementById("m-tk").value) || 0;
@@ -2467,20 +2465,47 @@
         if (cats.length === 0) {
           catBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">Chưa có khoản chi nào</td></tr>`;
         } else {
-          catBody.innerHTML = cats.map(c => {
-            const pct = cost > 0 ? (c.amount / cost) * 100 : 0;
-            const qtyDisplay = c.qty > 0
-              ? (c.mixedUnit ? c.qty.toLocaleString("vi-VN") : formatQty(c.qty, c.unit))
-              : "-";
-            return `
-              <tr>
-                <td>${c.name}</td>
-                <td class="num" style="color:var(--muted);">${qtyDisplay}</td>
-                <td class="num" style="font-weight:600;">${formatMoney(c.amount)}</td>
-                <td class="num" style="color:var(--muted);">${pct.toFixed(1)}%</td>
-              </tr>
-            `;
-          }).join("");
+          if (isSingleDayView) {
+            const chiList = data.filter(r => r.type === "chi");
+            if (chiList.length === 0) {
+              catBody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">Chưa có khoản chi nào trong ngày này</td></tr>`;
+            } else {
+              catBody.innerHTML = chiList.map(r => {
+                const qText = formatQty(r.qty, r.unit);
+                const pct = cost > 0 ? (Number(r.amount) / cost) * 100 : 0;
+                return `
+                  <tr class="day-row" data-rep-chi-id="${r.id}">
+                    <td>
+                      <div style="font-weight:700; font-size:13.5px;">${r.category}</div>
+                      <div style="font-size:11.5px; color:var(--muted); margin-top:2px;">${r.note ? r.note + " • " : ""}Chạm để sửa</div>
+                    </td>
+                    <td class="num" style="color:var(--muted);">${qText}</td>
+                    <td class="num" style="font-weight:600; color:var(--red);">−${formatMoney(r.amount)}</td>
+                    <td class="num" style="color:var(--muted);">${pct.toFixed(1)}%</td>
+                  </tr>
+                `;
+              }).join("");
+
+              catBody.querySelectorAll("tr.day-row[data-rep-chi-id]").forEach(tr => {
+                tr.addEventListener("click", () => openEditModal(tr.dataset.repChiId));
+              });
+            }
+          } else {
+            catBody.innerHTML = cats.map(c => {
+              const pct = cost > 0 ? (c.amount / cost) * 100 : 0;
+              const qtyDisplay = c.qty > 0
+                ? (c.mixedUnit ? c.qty.toLocaleString("vi-VN") : formatQty(c.qty, c.unit))
+                : "-";
+              return `
+                <tr>
+                  <td>${c.name}</td>
+                  <td class="num" style="color:var(--muted);">${qtyDisplay}</td>
+                  <td class="num" style="font-weight:600;">${formatMoney(c.amount)}</td>
+                  <td class="num" style="color:var(--muted);">${pct.toFixed(1)}%</td>
+                </tr>
+              `;
+            }).join("");
+          }
         }
 
         const soldMap = {};
@@ -3120,42 +3145,30 @@
 
       document.getElementById("btn-rec-sync").addEventListener("click", () => {
         if (!lastRecDiffs) return;
-        const { dateIso, diffTm, diffTk, diffChi } = lastRecDiffs;
+        const { dateIso, actualTm, actualTk, bookChi } = lastRecDiffs;
         const userNote = document.getElementById("rec-note").value.trim();
         const suffix = userNote ? ` (${userNote})` : "";
         const nowTime = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
 
-        if (diffTm !== 0 || diffTk !== 0) {
-          records.unshift({
-            id: "rec_adj_thu_" + Date.now(),
-            type: "thu",
-            date: dateIso,
-            orderTime: nowTime,
-            tk: diffTk,
-            tm: diffTm,
-            amount: diffTk + diffTm,
-            note: `Điều chỉnh đối soát cuối ngày${suffix}`
-          });
-        }
+        // Thực tế tiền đếm cuối ngày là lợi nhuận thực tế -> Doanh thu = Lợi nhuận thực tế + Tổng chi phí đã chi trong ngày
+        const targetProfit = actualTm + actualTk;
+        const targetRev = targetProfit + bookChi;
 
-        if (diffChi !== 0) {
-          const fallbackCat = expenseCategories.includes("Tạp phẩm khác") ? "Tạp phẩm khác" : expenseCategories[0];
-          records.unshift({
-            id: "rec_adj_chi_" + (Date.now() + 1),
-            type: "chi",
-            date: dateIso,
-            category: fallbackCat,
-            amount: diffChi,
-            qty: "",
-            unit: "",
-            note: `Điều chỉnh đối soát chi phí cuối ngày${suffix}`
-          });
-        }
+        records.unshift({
+          id: "rec_adj_reconcile_" + Date.now(),
+          type: "thu",
+          date: dateIso,
+          orderTime: nowTime,
+          tk: actualTk,
+          tm: actualTm,
+          amount: targetRev > 0 ? targetRev : 0,
+          note: `Điều chỉnh doanh thu theo đối soát quỹ cuối ngày${suffix}`
+        });
 
         saveRecords();
         renderAll();
         document.getElementById("btn-rec-check").click();
-        showToast("Đã tự động cập nhật & cân bằng sổ!");
+        showToast("Đã đồng bộ doanh thu dựa trên lợi nhuận quỹ thực tế!");
       });
 
       // ======================================================================
@@ -4282,55 +4295,211 @@
         } catch (e) {}
       });
 
-      const elRestoreInput = document.getElementById("input-restore-file");
-      document.getElementById("btn-restore-backup").addEventListener("click", () => {
-        elRestoreInput.value = "";
-        elRestoreInput.click();
-      });
-
-      elRestoreInput.addEventListener("change", (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          try {
-            const parsed = JSON.parse(reader.result);
-            if (!Array.isArray(parsed.records)) {
-              showToast("Tệp sao lưu không hợp lệ!");
-              return;
-            }
-            records = parsed.records;
-            if (Array.isArray(parsed.categories) && parsed.categories.length > 0) expenseCategories = parsed.categories;
-            if (Array.isArray(parsed.posGroups) && parsed.posGroups.length > 0) posGroupsList = parsed.posGroups;
-            if (Array.isArray(parsed.posMenu) && parsed.posMenu.length > 0) posItemsList = parsed.posMenu;
-            if (Array.isArray(parsed.savedOrders)) savedOrders = parsed.savedOrders;
-            if (Array.isArray(parsed.materialHistory)) manualMaterialHistory = parsed.materialHistory;
-            if (Array.isArray(parsed.suppliers)) suppliersList = parsed.suppliers;
-            if (Array.isArray(parsed.recipes)) recipesList = parsed.recipes;
-
-            saveRecords(true);
-            saveCategories(true);
-            savePosGroups(true);
-            savePosMenu(true);
-            saveSavedOrders(true);
-            saveMaterialHistory(true);
-            saveSuppliers(true);
-            saveRecipes(true);
-            renderAll();
-            showToast("Đã khôi phục dữ liệu thành công!");
-          } catch (err) {
-            showToast("Lỗi đọc tệp sao lưu JSON!");
+      // Google Drive Backup Integration
+      document.getElementById("btn-gdrive-connect").addEventListener("click", () => {
+        modalCard.innerHTML = `
+          <h3>Kết nối Google Drive</h3>
+          <div class="form-group">
+            <label>Nhập Google OAuth Token truy cập</label>
+            <input type="text" id="gdrive-token-input" placeholder="Dán Token Google Drive tại đây..." />
+          </div>
+          <div style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">
+            Ứng dụng sẽ tải trực tiếp hoặc khôi phục tệp <strong>Sao_Luu_Nha_Bap.json</strong> từ Google Drive của bạn qua Google Drive REST API.
+          </div>
+          <div class="modal-btns">
+            <button type="button" class="btn-outline" id="m-gdrive-cancel">Hủy</button>
+            <button type="button" class="btn-submit" style="margin:0; background:#1A73E8;" id="m-gdrive-save">Kết nối Drive</button>
+          </div>
+        `;
+        modalBg.classList.add("open");
+        document.getElementById("m-gdrive-cancel").addEventListener("click", closeModal);
+        document.getElementById("m-gdrive-save").addEventListener("click", () => {
+          const val = document.getElementById("gdrive-token-input").value.trim();
+          if (!val) {
+            showToast("Vui lòng nhập Token hợp lệ!");
+            return;
           }
-        };
-        reader.readAsText(file);
+          gdriveAccessToken = val;
+          document.getElementById("gdrive-status-lbl").textContent = "Đã kết nối Drive";
+          document.getElementById("btn-gdrive-connect").textContent = "Đã kết nối";
+          document.getElementById("btn-gdrive-connect").style.background = "var(--green)";
+          document.getElementById("btn-gdrive-connect").style.borderColor = "var(--green)";
+          document.getElementById("btn-gdrive-sync").style.display = "block";
+          document.getElementById("btn-gdrive-download").style.display = "block";
+          closeModal();
+          showToast("Đã kết nối tài khoản Google Drive!");
+        });
       });
 
-      function openCatSettingsModal() {
+      document.getElementById("btn-gdrive-guide").addEventListener("click", () => {
+        modalCard.innerHTML = `
+          <h3>Hướng dẫn lấy Token Google Drive</h3>
+          <div style="font-size:13.5px; color:#374151; line-height:1.5; margin-bottom:14px;">
+            <ol style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px;">
+              <li>Truy cập trang <a href="https://developers.google.com/oauthplayground" target="_blank" style="color:#1A73E8; font-weight:700;">Google OAuth 2.0 Playground</a>.</li>
+              <li>Ở danh sách API bên trái, cuộn xuống chọn <strong>Drive API v3</strong> và tích vào quyền <code style="background:var(--subtle); padding:2px 4px; border-radius:4px;">https://www.googleapis.com/auth/drive.file</code>.</li>
+              <li>Bấm nút <strong>Authorize APIs</strong> ở góc trên bên phải và đăng nhập bằng tài khoản Google của bạn.</li>
+              <li>Tại bước 2, bấm nút <strong>Exchange authorization code for tokens</strong>.</li>
+              <li>Sao chép đoạn mã dài ở mục <strong>Access token</strong> và dán vào ô kết nối trong ứng dụng là hoàn tất!</li>
+            </ol>
+          </div>
+          <button type="button" class="btn-submit" id="m-guide-close" style="margin:0;">Đã hiểu</button>
+        `;
+        modalBg.classList.add("open");
+        document.getElementById("m-guide-close").addEventListener("click", closeModal);
+      });
+
+      document.getElementById("btn-gdrive-sync").addEventListener("click", async () => {
+        if (!gdriveAccessToken) {
+          showToast("Chưa kết nối tài khoản Google Drive!");
+          return;
+        }
+        showToast("Đang tải tệp lên Google Drive...");
+        const payload = JSON.stringify({
+          app: "Quan_Ly_Kinh_Doanh_Nha_Bap",
+          exportedAt: new Date().toISOString(),
+          records,
+          categories: expenseCategories,
+          posGroups: posGroupsList,
+          posMenu: posItemsList,
+          savedOrders,
+          materialHistory: manualMaterialHistory,
+          suppliers: suppliersList,
+          recipes: recipesList
+        }, null, 2);
+
+        try {
+          const metadata = { name: BACKUP_FILENAME, mimeType: "application/json" };
+          const form = new FormData();
+          form.append("metadata", new Blob([JSON.stringify(metadata)], { type: "application/json" }));
+          form.append("file", new Blob([payload], { type: "application/json" }));
+
+          const res = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart", {
+            method: "POST",
+            headers: new Headers({ "Authorization": "Bearer " + gdriveAccessToken }),
+            body: form
+          });
+          if (res.ok) {
+            showToast("Đã đồng bộ thành công lên Google Drive!");
+            document.getElementById("last-backup-info").textContent = `Đã sao lưu lên Google Drive lúc ${new Date().toLocaleTimeString("vi-VN")}.`;
+          } else {
+            showToast("Đồng bộ Google Drive thất bại (Token hết hạn hoặc sai).");
+          }
+        } catch (err) {
+          showToast("Lỗi kết nối mạng khi tải lên Google Drive.");
+        }
+      });
+
+      document.getElementById("btn-gdrive-download").addEventListener("click", async () => {
+        if (!gdriveAccessToken) {
+          showToast("Chưa kết nối tài khoản Google Drive!");
+          return;
+        }
+        showToast("Đang tìm tệp trên Google Drive...");
+        try {
+          const query = encodeURIComponent(`name = '${BACKUP_FILENAME}' and trashed = false`);
+          const listRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${query}`, {
+            headers: new Headers({ "Authorization": "Bearer " + gdriveAccessToken })
+          });
+          if (!listRes.ok) {
+            showToast("Không thể tìm tệp trên Drive.");
+            return;
+          }
+          const listData = await listRes.json();
+          if (!listData.files || listData.files.length === 0) {
+            showToast("Không tìm thấy tệp Sao_Luu_Nha_Bap.json trên Drive!");
+            return;
+          }
+          const fileId = listData.files[0].id;
+          showToast("Đang tải xuống dữ liệu...");
+          const fileRes = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+            headers: new Headers({ "Authorization": "Bearer " + gdriveAccessToken })
+          });
+          if (!fileRes.ok) {
+            showToast("Không thể tải tệp từ Drive.");
+            return;
+          }
+          const parsed = await fileRes.json();
+          if (!Array.isArray(parsed.records)) {
+            showToast("Tệp trên Drive không đúng định dạng!");
+            return;
+          }
+          records = parsed.records;
+          if (Array.isArray(parsed.categories) && parsed.categories.length > 0) expenseCategories = parsed.categories;
+          if (Array.isArray(parsed.posGroups) && parsed.posGroups.length > 0) posGroupsList = parsed.posGroups;
+          if (Array.isArray(parsed.posMenu) && parsed.posMenu.length > 0) posItemsList = parsed.posMenu;
+          if (Array.isArray(parsed.savedOrders)) savedOrders = parsed.savedOrders;
+          if (Array.isArray(parsed.materialHistory)) manualMaterialHistory = parsed.materialHistory;
+          if (Array.isArray(parsed.suppliers)) suppliersList = parsed.suppliers;
+          if (Array.isArray(parsed.recipes)) recipesList = parsed.recipes;
+
+          saveRecords(true);
+          saveCategories(true);
+          savePosGroups(true);
+          savePosMenu(true);
+          saveSavedOrders(true);
+          saveMaterialHistory(true);
+          saveSuppliers(true);
+          saveRecipes(true);
+          renderAll();
+          showToast("Đã tải xuống và tự động đồng bộ ứng dụng thành công!");
+          document.getElementById("last-backup-info").textContent = `Đã đồng bộ từ Google Drive lúc ${new Date().toLocaleTimeString("vi-VN")}.`;
+        } catch (err) {
+          showToast("Lỗi kết nối khi tải xuống từ Google Drive.");
+        }
+      });
+
+      const elRestoreInput = document.getElementById("input-restore-file");
+      const elBtnRestore = document.getElementById("btn-restore-backup");
+
+      if (elBtnRestore && elRestoreInput) {
+        elBtnRestore.addEventListener("click", () => elRestoreInput.click());
+        elRestoreInput.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            try {
+              const parsed = JSON.parse(evt.target.result);
+              if (!Array.isArray(parsed.records)) {
+                showToast("Tệp sao lưu không hợp lệ!");
+                return;
+              }
+              records = parsed.records;
+              if (Array.isArray(parsed.categories) && parsed.categories.length > 0) expenseCategories = parsed.categories;
+              if (Array.isArray(parsed.posGroups) && parsed.posGroups.length > 0) posGroupsList = parsed.posGroups;
+              if (Array.isArray(parsed.posMenu) && parsed.posMenu.length > 0) posItemsList = parsed.posMenu;
+              if (Array.isArray(parsed.savedOrders)) savedOrders = parsed.savedOrders;
+              if (Array.isArray(parsed.materialHistory)) manualMaterialHistory = parsed.materialHistory;
+              if (Array.isArray(parsed.suppliers)) suppliersList = parsed.suppliers;
+              if (Array.isArray(parsed.recipes)) recipesList = parsed.recipes;
+
+              saveRecords(true);
+              saveCategories(true);
+              savePosGroups(true);
+              savePosMenu(true);
+              saveSavedOrders(true);
+              saveMaterialHistory(true);
+              saveSuppliers(true);
+              saveRecipes(true);
+              renderAll();
+              showToast("Đã khôi phục dữ liệu thành công từ tệp!");
+            } catch (err) {
+              showToast("Lỗi đọc tệp sao lưu JSON!");
+            }
+          };
+          reader.readAsText(file);
+          elRestoreInput.value = "";
+        });
+      }
+
+      // Cài đặt danh mục đầu mục chi phí
+      function openCategorySettingsModal() {
         const rowsHtml = expenseCategories.map((cat, idx) => `
           <div class="cat-item-row">
-            <div style="font-weight:700; font-size:14px;">${cat}</div>
-            <div style="display:flex; gap:6px;">
-              <button type="button" class="mini-btn" data-cat-edit="${idx}">Sửa</button>
+            <span style="font-weight:700; font-size:14px; flex:1; min-width:0; word-break:break-word;">${cat}</span>
+            <div style="display:flex; gap:6px; flex-shrink:0;">
+              <button type="button" class="mini-btn" data-cat-edit="${idx}">Đổi tên</button>
               <button type="button" class="mini-btn del" data-cat-del="${idx}">Xóa</button>
             </div>
           </div>
@@ -4339,29 +4508,43 @@
         modalCard.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
             <h3 style="margin:0;">Đầu mục chi phí (${expenseCategories.length})</h3>
+            <button type="button" class="btn-submit" id="m-btn-new-cat" style="width:auto; min-height:36px; padding:0 12px; margin:0; font-size:13px;">+ Thêm mục</button>
           </div>
-          <div style="display:flex; gap:8px; margin-bottom:12px;">
-            <input type="text" id="new-cat-input" placeholder="Nhập tên mặt hàng mới..." style="min-height:42px; font-size:14px;" />
-            <button type="button" class="btn-submit" id="btn-add-new-cat" style="width:auto; min-height:42px; padding:0 14px; margin:0; font-size:13.5px; white-space:nowrap;">+ Thêm</button>
-          </div>
-          <div style="max-height:52vh; overflow-y:auto;">${rowsHtml}</div>
-          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-close-cats">Đóng</button>
+          <div style="max-height:56vh; overflow-y:auto;">${rowsHtml}</div>
+          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-close-cat">Đóng</button>
         `;
         modalBg.classList.add("open");
 
-        document.getElementById("m-close-cats").addEventListener("click", closeModal);
-        document.getElementById("btn-add-new-cat").addEventListener("click", () => {
-          const val = document.getElementById("new-cat-input").value.trim();
-          if (!val) return;
-          if (expenseCategories.includes(val)) {
-            showToast("Đầu mục này đã tồn tại!");
-            return;
-          }
-          expenseCategories.unshift(val);
-          saveCategories();
-          renderCategorySelects();
-          openCatSettingsModal();
-          showToast(`Đã thêm "${val}"`);
+        document.getElementById("m-close-cat").addEventListener("click", closeModal);
+        document.getElementById("m-btn-new-cat").addEventListener("click", () => {
+          modalCard.innerHTML = `
+            <h3>Thêm đầu mục chi phí mới</h3>
+            <div class="form-group">
+              <label>Tên mặt hàng / Khoản chi</label>
+              <input type="text" id="new-cat-name" placeholder="VD: Hạt nêm, Thuê mặt bằng..." />
+            </div>
+            <div class="modal-btns">
+              <button type="button" class="btn-outline" id="m-cat-form-back">Quay lại</button>
+              <button type="button" class="btn-submit" style="margin:0;" id="m-cat-form-save">Thêm mới</button>
+            </div>
+          `;
+          document.getElementById("m-cat-form-back").addEventListener("click", openCategorySettingsModal);
+          document.getElementById("m-cat-form-save").addEventListener("click", () => {
+            const val = document.getElementById("new-cat-name").value.trim();
+            if (!val) {
+              showToast("Vui lòng nhập tên đầu mục!");
+              return;
+            }
+            if (expenseCategories.includes(val)) {
+              showToast("Đầu mục này đã tồn tại!");
+              return;
+            }
+            expenseCategories.push(val);
+            saveCategories();
+            renderCategorySelects();
+            openCategorySettingsModal();
+            showToast(`Đã thêm "${val}"`);
+          });
         });
 
         modalCard.querySelectorAll("[data-cat-edit]").forEach(btn => {
@@ -4369,107 +4552,65 @@
             const idx = Number(btn.dataset.catEdit);
             const oldName = expenseCategories[idx];
             modalCard.innerHTML = `
-              <h3>Đổi tên đầu mục chi phí</h3>
+              <h3>Đổi tên đầu mục</h3>
               <div class="form-group">
                 <label>Tên mới</label>
-                <input type="text" id="edit-cat-input" value="${oldName}" />
+                <input type="text" id="edit-cat-name" value="${oldName}" />
               </div>
               <div class="modal-btns">
-                <button type="button" class="btn-outline" id="m-cat-back">Hủy</button>
-                <button type="button" class="btn-submit" style="margin:0;" id="m-cat-save">Lưu tên mới</button>
+                <button type="button" class="btn-outline" id="m-edit-back">Quay lại</button>
+                <button type="button" class="btn-submit" style="margin:0;" id="m-edit-save">Lưu tên mới</button>
               </div>
             `;
-            document.getElementById("m-cat-back").addEventListener("click", openCatSettingsModal);
-            document.getElementById("m-cat-save").addEventListener("click", () => {
-              const newName = document.getElementById("edit-cat-input").value.trim();
-              if (!newName) return;
-              expenseCategories[idx] = newName;
-              records.forEach(r => { if (r.type === "chi" && r.category === oldName) r.category = newName; });
+            document.getElementById("m-edit-back").addEventListener("click", openCategorySettingsModal);
+            document.getElementById("m-edit-save").addEventListener("click", () => {
+              const newVal = document.getElementById("edit-cat-name").value.trim();
+              if (!newVal) {
+                showToast("Tên không được để trống!");
+                return;
+              }
+              expenseCategories[idx] = newVal;
               saveCategories();
-              saveRecords();
-              renderAll();
-              openCatSettingsModal();
-              showToast("Đã cập nhật tên đầu mục!");
+              renderCategorySelects();
+              openCategorySettingsModal();
+              showToast("Đã đổi tên đầu mục!");
             });
           });
         });
 
         modalCard.querySelectorAll("[data-cat-del]").forEach(btn => {
           btn.addEventListener("click", () => {
-            if (expenseCategories.length <= 1) {
-              showToast("Cần giữ lại ít nhất 1 đầu mục!");
-              return;
-            }
             const idx = Number(btn.dataset.catDel);
             const removed = expenseCategories.splice(idx, 1)[0];
             saveCategories();
             renderCategorySelects();
-            openCatSettingsModal();
+            openCategorySettingsModal();
             showToast(`Đã xóa "${removed}"`);
           });
         });
       }
 
-      document.getElementById("btn-open-cat-settings").addEventListener("click", openCatSettingsModal);
+      document.getElementById("btn-open-cat-settings").addEventListener("click", openCategorySettingsModal);
 
+      // Cài đặt mặt hàng bán ra POS
       function openPosMenuSettingsModal() {
-        const rowsHtml = posItemsList.map((item, idx) => `
-          <div class="cat-item-row">
-            <div style="flex:1; min-width:0;">
-              <div style="font-weight:700; font-size:14px;">${item.name} <span style="font-weight:500; font-size:11.5px; color:var(--muted);">(${getPosGroupLabel(item.group)})</span></div>
-              <div style="font-size:12.5px; color:var(--green); font-weight:700;">${formatMoney(item.price)}</div>
-            </div>
-            <div style="display:flex; gap:6px;">
-              <button type="button" class="mini-btn" data-pm-edit="${idx}">Sửa</button>
-              <button type="button" class="mini-btn del" data-pm-del="${idx}">Xóa</button>
-            </div>
-          </div>
-        `).join("");
+        const rowsHtml = posItemsList.map((item, idx) => {
+          const totalCost = (item.ingredients || []).reduce((s, x) => s + (Number(x.cost) || 0), 0);
+          const profit = (Number(item.price) || 0) - totalCost;
+          const margin = (Number(item.price) || 0) > 0 ? ((profit / (Number(item.price) || 0)) * 100).toFixed(1) : "0.0";
+          const profitTag = totalCost > 0 
+            ? `<span style="font-size:12px; font-weight:700; color:${profit >= 0 ? "var(--green)" : "var(--red)"}; margin-left:6px;">Lãi: ${formatMoney(profit)} (${margin}%)</span>`
+            : `<span style="font-size:11.5px; color:var(--muted); margin-left:6px;">(Chưa định lượng)</span>`;
 
-        modalCard.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; margin-bottom:10px;">
-            <h3 style="margin:0;">Menu bán (${posItemsList.length} món)</h3>
-            <div style="display:flex; gap:6px;">
-              <button type="button" class="btn-outline" id="m-btn-manage-groups" style="min-height:36px; padding:0 10px; font-size:12.5px;">Nhóm món (${posGroupsList.length})</button>
-              <button type="button" class="btn-submit" id="m-btn-new-pm" style="width:auto; min-height:36px; padding:0 11px; margin:0; font-size:12.5px;">+ Thêm món</button>
-            </div>
-          </div>
-          <div style="max-height:56vh; overflow-y:auto;">${rowsHtml}</div>
-          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-close-pm">Đóng</button>
-        `;
-        modalBg.classList.add("open");
-
-        document.getElementById("m-close-pm").addEventListener("click", closeModal);
-        document.getElementById("m-btn-manage-groups").addEventListener("click", openPosGroupsSettingsModal);
-        document.getElementById("m-btn-new-pm").addEventListener("click", () => openPosItemFormModal(-1));
-        modalCard.querySelectorAll("[data-pm-edit]").forEach(btn => {
-          btn.addEventListener("click", () => openPosItemFormModal(Number(btn.dataset.pmEdit)));
-        });
-        modalCard.querySelectorAll("[data-pm-del]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const idx = Number(btn.dataset.pmDel);
-            const removed = posItemsList.splice(idx, 1)[0];
-            delete posCart[removed.id];
-            savePosMenu();
-            renderAll();
-            openPosMenuSettingsModal();
-            showToast(`Đã xóa "${removed.name}"`);
-          });
-        });
-      }
-
-      function openPosGroupsSettingsModal() {
-        const rowsHtml = posGroupsList.map((grp, idx) => {
-          const itemCount = posItemsList.filter(i => i.group === grp.key).length;
           return `
             <div class="cat-item-row">
               <div style="flex:1; min-width:0;">
-                <div style="font-weight:700; font-size:14px;">${grp.label} ${grp.isCombo ? `<span style="font-size:11px; background:var(--accent-soft); color:var(--accent); padding:1px 7px; border-radius:999px;">Tính suất chảo</span>` : ""}</div>
-                <div style="font-size:12px; color:var(--muted);">${itemCount} món trong nhóm</div>
+                <div style="font-weight:700; font-size:14px;">${item.name} <span style="font-size:12px; color:var(--green); font-weight:700;">${formatMoney(item.price)}</span>${profitTag}</div>
+                <div style="font-size:12px; color:var(--muted);">${item.desc || ""} • Nhóm: ${getPosGroupLabel(item.group)}</div>
               </div>
-              <div style="display:flex; gap:6px;">
-                <button type="button" class="mini-btn" data-pg-edit="${idx}">Sửa</button>
-                <button type="button" class="mini-btn del" data-pg-del="${idx}">Xóa</button>
+              <div style="display:flex; gap:6px; flex-shrink:0;">
+                <button type="button" class="mini-btn" data-pos-edit="${idx}">Sửa</button>
+                <button type="button" class="mini-btn del" data-pos-del="${idx}">Xóa</button>
               </div>
             </div>
           `;
@@ -4477,319 +4618,236 @@
 
         modalCard.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <h3 style="margin:0;">Tùy chỉnh nhóm món (${posGroupsList.length})</h3>
+            <h3 style="margin:0;">Mặt hàng bán ra (${posItemsList.length})</h3>
+            <button type="button" class="btn-submit" id="m-btn-new-pos" style="width:auto; min-height:36px; padding:0 12px; margin:0; font-size:13px;">+ Thêm món</button>
           </div>
-          <div style="display:flex; gap:8px; margin-bottom:8px;">
-            <input type="text" id="new-pg-input" placeholder="Tên nhóm mới (VD: Ăn vặt, Combo...)" style="min-height:42px; font-size:14px;" />
-            <button type="button" class="btn-submit" id="btn-add-new-pg" style="width:auto; min-height:42px; padding:0 14px; margin:0; font-size:13.5px; white-space:nowrap;">+ Thêm</button>
-          </div>
-          <label style="display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--muted); margin-bottom:12px; cursor:pointer;">
-            <input type="checkbox" id="new-pg-iscombo" style="width:16px; height:16px; min-height:0;" />
-            <span>Nhóm món chính (tính vào số suất chảo bán ra)</span>
-          </label>
-          <div style="max-height:48vh; overflow-y:auto;">${rowsHtml}</div>
-          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-pg-back">‹ Quay lại Menu món</button>
+          <div style="max-height:58vh; overflow-y:auto;">${rowsHtml}</div>
+          <button type="button" class="btn-outline" style="width:100%; margin-top:14px;" id="m-close-pos-set">Đóng</button>
         `;
+        modalBg.classList.add("open");
 
-        document.getElementById("m-pg-back").addEventListener("click", openPosMenuSettingsModal);
-        document.getElementById("btn-add-new-pg").addEventListener("click", () => {
-          const label = document.getElementById("new-pg-input").value.trim();
-          if (!label) {
-            showToast("Vui lòng nhập tên nhóm món!");
-            return;
-          }
-          if (posGroupsList.some(g => g.label.toLowerCase() === label.toLowerCase())) {
-            showToast("Nhóm món này đã tồn tại!");
-            return;
-          }
-          const isCombo = document.getElementById("new-pg-iscombo").checked;
-          posGroupsList.push({
-            key: "grp_" + Date.now(),
-            label,
-            isCombo
-          });
-          savePosGroups();
-          renderPosMenu();
-          openPosGroupsSettingsModal();
-          showToast(`Đã thêm nhóm "${label}"`);
+        document.getElementById("m-close-pos-set").addEventListener("click", closeModal);
+        document.getElementById("m-btn-new-pos").addEventListener("click", () => openPosItemFormModal(-1));
+        modalCard.querySelectorAll("[data-pos-edit]").forEach(btn => {
+          btn.addEventListener("click", () => openPosItemFormModal(Number(btn.dataset.posEdit)));
         });
-
-        modalCard.querySelectorAll("[data-pg-edit]").forEach(btn => {
+        modalCard.querySelectorAll("[data-pos-del]").forEach(btn => {
           btn.addEventListener("click", () => {
-            const idx = Number(btn.dataset.pgEdit);
-            const grp = posGroupsList[idx];
-            modalCard.innerHTML = `
-              <h3>Sửa nhóm món</h3>
-              <div class="form-group">
-                <label>Tên nhóm món</label>
-                <input type="text" id="edit-pg-input" value="${grp.label}" />
-              </div>
-              <label style="display:flex; align-items:center; gap:8px; font-size:13.5px; margin-bottom:12px; cursor:pointer;">
-                <input type="checkbox" id="edit-pg-iscombo" ${grp.isCombo ? "checked" : ""} style="width:17px; height:17px; min-height:0;" />
-                <span>Nhóm món chính (tính vào số suất chảo bán ra)</span>
-              </label>
-              <div class="modal-btns">
-                <button type="button" class="btn-outline" id="m-pg-edit-cancel">Hủy</button>
-                <button type="button" class="btn-submit" style="margin:0;" id="m-pg-edit-save">Lưu thay đổi</button>
-              </div>
-            `;
-            document.getElementById("m-pg-edit-cancel").addEventListener("click", openPosGroupsSettingsModal);
-            document.getElementById("m-pg-edit-save").addEventListener("click", () => {
-              const newLabel = document.getElementById("edit-pg-input").value.trim();
-              if (!newLabel) return;
-              const newIsCombo = document.getElementById("edit-pg-iscombo").checked;
-              grp.label = newLabel;
-              grp.isCombo = newIsCombo;
-              posItemsList.forEach(item => {
-                if (item.group === grp.key) item.chaoCount = newIsCombo ? 1 : 0;
-              });
-              savePosGroups();
-              savePosMenu();
-              renderAll();
-              openPosGroupsSettingsModal();
-              showToast("Đã cập nhật nhóm món!");
-            });
-          });
-        });
-
-        modalCard.querySelectorAll("[data-pg-del]").forEach(btn => {
-          btn.addEventListener("click", () => {
-            if (posGroupsList.length <= 1) {
-              showToast("Cần giữ lại ít nhất 1 nhóm món!");
-              return;
-            }
-            const idx = Number(btn.dataset.pgDel);
-            const removed = posGroupsList.splice(idx, 1)[0];
-            const fallbackKey = posGroupsList[0].key;
-            posItemsList.forEach(item => {
-              if (item.group === removed.key) {
-                item.group = fallbackKey;
-                item.chaoCount = posGroupsList[0].isCombo ? 1 : 0;
-              }
-            });
-            savePosGroups();
+            const idx = Number(btn.dataset.posDel);
+            const removed = posItemsList.splice(idx, 1)[0];
             savePosMenu();
-            renderAll();
-            openPosGroupsSettingsModal();
-            showToast(`Đã xóa nhóm "${removed.label}"`);
+            renderPosMenu();
+            renderCategorySelects();
+            openPosMenuSettingsModal();
+            showToast(`Đã xóa món "${removed.name}"`);
           });
         });
       }
 
       function openPosItemFormModal(idx) {
         const isNew = idx < 0;
-        const defaultGroupKey = posGroupsList.length > 0 ? posGroupsList[0].key : "combo";
         const item = isNew
-          ? { id: "pm_" + Date.now(), name: "", desc: "", price: 25000, costPrice: 0, recipeComponents: [], group: defaultGroupKey, chaoCount: isComboGroupKey(defaultGroupKey) ? 1 : 0 }
+          ? { id: "item_" + Date.now(), name: "", desc: "", price: 25000, group: "combo", chaoCount: 1, ingredients: [] }
           : posItemsList[idx];
 
-        const groupOptionsHtml = posGroupsList.map(g =>
-          `<option value="${g.key}" ${item.group === g.key ? "selected" : ""}>${g.label}</option>`
-        ).join("");
+        let draftIngredients = Array.isArray(item.ingredients)
+          ? JSON.parse(JSON.stringify(item.ingredients))
+          : [];
 
-        let comps = Array.isArray(item.recipeComponents) ? [...item.recipeComponents] : [];
-        if (comps.length === 0 && item.ingredients && Array.isArray(item.ingredients)) {
-          comps = item.ingredients.map(name => ({ name, qty: 1, unit: "cái", cost: 0 }));
+        const groupOpts = posGroupsList.map(g => `<option value="${g.key}" ${item.group === g.key ? "selected" : ""}>${g.label}</option>`).join("");
+        const unitOptsList = ["g", "quả", "ổ", "cây", "ml", "lát", "lon", "chai", "bịch", "kg"];
+
+        function updateItemProfitSummary() {
+          const totalCost = draftIngredients.reduce((s, x) => s + (Number(x.cost) || 0), 0);
+          const sellPrice = Number(document.getElementById("pos-f-price")?.value) || 0;
+          const profit = sellPrice - totalCost;
+          const margin = sellPrice > 0 ? ((profit / sellPrice) * 100).toFixed(1) : "0.0";
+
+          const totalCostEl = document.getElementById("pos-ing-total-cost");
+          if (totalCostEl) totalCostEl.textContent = formatMoney(totalCost);
+
+          const profitEl = document.getElementById("pos-ing-profit");
+          if (profitEl) {
+            profitEl.textContent = `${formatMoney(profit)} (${margin}%)`;
+            profitEl.style.color = profit >= 0 ? "var(--green)" : "var(--red)";
+          }
+        }
+
+        function renderIngredientRows() {
+          const listEl = document.getElementById("pos-ing-list");
+          if (!listEl) return;
+
+          if (draftIngredients.length === 0) {
+            listEl.innerHTML = `<div style="font-size:13.5px; color:var(--muted); text-align:center; padding:10px 0;">Chưa có thành phần định lượng. Bấm <strong>+ Thêm thành phần</strong> để tính giá vốn.</div>`;
+            updateItemProfitSummary();
+            return;
+          }
+
+          listEl.innerHTML = draftIngredients.map((ing, i) => {
+            const uOpts = unitOptsList.map(u => `<option value="${u}" ${ing.unit === u ? "selected" : ""}>${u}</option>`).join("");
+            return `
+              <div style="background:#FFFFFF; border:1px solid var(--border); border-radius:12px; padding:10px; margin-bottom:8px;" data-ing-idx="${i}">
+                <div style="display:flex; gap:8px; margin-bottom:8px;">
+                  <input type="text" class="ing-name-in" value="${ing.name || ""}" placeholder="Tên nguyên liệu (VD: Bò, Trứng...)" style="flex:1; min-height:42px; font-size:16px;" />
+                  <button type="button" class="mini-btn del ing-del-btn" style="min-height:42px; padding:0 12px; font-weight:700;">Xóa</button>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1.2fr; gap:6px;">
+                  <input type="number" class="ing-qty-in" inputmode="decimal" step="any" value="${ing.qty !== undefined ? ing.qty : ""}" placeholder="SL" style="min-height:42px; font-size:16px; text-align:center;" />
+                  <select class="ing-unit-in" style="min-height:42px; font-size:16px; padding:0 8px;">${uOpts}</select>
+                  <input type="number" class="ing-cost-in" inputmode="numeric" step="100" value="${ing.cost !== undefined ? ing.cost : ""}" placeholder="Giá vốn (đ)" style="min-height:42px; font-size:16px; text-align:right;" />
+                </div>
+              </div>
+            `;
+          }).join("");
+
+          updateItemProfitSummary();
         }
 
         modalCard.innerHTML = `
-          <h3>${isNew ? "Thêm món bán mới" : "Sửa thông tin món"}</h3>
+          <h3>${isNew ? "Thêm mặt hàng mới" : "Chỉnh sửa mặt hàng"}</h3>
           <div class="form-group">
             <label>Tên món</label>
-            <input type="text" id="pm-f-name" value="${item.name}" placeholder="VD: Chảo Đặc Biệt, Trà đào..." />
+            <input type="text" id="pos-f-name" value="${item.name}" placeholder="VD: Chảo 2" />
           </div>
           <div class="row-2">
             <div class="form-group">
               <label>Giá bán (đ)</label>
-              <input type="number" id="pm-f-price" inputmode="numeric" step="1000" value="${item.price}" />
+              <input type="number" id="pos-f-price" inputmode="numeric" step="1000" value="${item.price}" />
             </div>
             <div class="form-group">
               <label>Nhóm hiển thị trên menu</label>
-              <select id="pm-f-group">${groupOptionsHtml}</select>
+              <select id="pos-f-group">${groupOpts}</select>
             </div>
           </div>
           <div class="form-group">
             <label>Mô tả phụ (tuỳ chọn)</label>
-            <input type="text" id="pm-f-desc" value="${item.desc || ""}" placeholder="VD: 1 trứng, 1 xúc xích..." />
+            <input type="text" id="pos-f-desc" value="${item.desc || ""}" placeholder="VD: 1 bò, 1 trứng, 1 pate, 1 xíu mại, 1 bánh mỳ" />
           </div>
 
-          <div class="form-group" style="background:var(--subtle); padding:12px; border-radius:12px; border:1px solid var(--border);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <label style="margin:0; font-weight:800; color:var(--ink);">Thành phần bên trong (Định lượng & Giá vốn)</label>
-              <button type="button" class="mini-btn" id="btn-add-comp-row" style="background:var(--accent-soft); color:var(--accent); border-color:#FDE68A; font-weight:700;">+ Thêm thành phần</button>
+          <div style="background:var(--subtle); border:1px solid var(--border); border-radius:14px; padding:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+              <div style="font-weight:800; font-size:13.5px; color:var(--ink); line-height:1.3;">Thành phần bên trong (Định<br/>lượng & Giá vốn)</div>
+              <button type="button" class="mini-btn" id="pos-btn-add-ing" style="background:var(--accent-soft); color:var(--accent); border-color:#FDE68A; font-weight:700; padding:6px 10px; line-height:1.25; text-align:center;">+ Thêm<br/>thành phần</button>
             </div>
-            <div id="comp-rows-container" style="display:flex; flex-direction:column; gap:8px; max-height:36vh; overflow-y:auto; padding:2px;"></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding:8px 10px; background:#FFFFFF; border-radius:9px; border:1px solid var(--border); font-weight:700;">
-              <span>Tổng giá vốn 1 suất:</span>
-              <span id="lbl-total-cost" style="color:var(--red); font-size:16px;">0 đ</span>
+            <div id="pos-ing-list"></div>
+            <div style="background:#FFFFFF; border:1px solid var(--border); border-radius:11px; padding:10px 12px; margin-top:4px; display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:13.5px; color:var(--muted);">Tổng giá vốn 1 suất:</span>
+                <strong style="font-size:14.5px; color:var(--red);" id="pos-ing-total-cost">0 đ</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border); padding-top:6px;">
+                <span style="font-weight:800; font-size:14px; color:var(--ink);">Lợi nhuận gộp 1 suất:</span>
+                <strong style="font-size:15.5px; color:var(--green);" id="pos-ing-profit">0 đ (0.0%)</strong>
+              </div>
             </div>
           </div>
 
           <div class="modal-btns">
-            <button type="button" class="btn-outline" id="pm-f-cancel">Quay lại</button>
-            <button type="button" class="btn-submit" style="margin:0;" id="pm-f-save">Lưu món</button>
+            <button type="button" class="btn-outline" id="pos-f-back">Quay lại</button>
+            <button type="button" class="btn-submit" style="margin:0;" id="pos-f-save">Lưu món</button>
           </div>
         `;
 
-        const container = document.getElementById("comp-rows-container");
-        const totalCostLbl = document.getElementById("lbl-total-cost");
-        const unitsList = ["quả", "cái", "g", "kg", "ml", "lít", "ổ", "lát", "phần", "lon"];
+        renderIngredientRows();
 
-        function renderCompRows() {
-          const rows = container.querySelectorAll(".comp-row");
-          const currentData = [];
-          rows.forEach(r => {
-            currentData.push({
-              name: r.querySelector(".comp-name").value.trim(),
-              qty: Number(r.querySelector(".comp-qty").value) || 1,
-              unit: r.querySelector(".comp-unit").value,
-              cost: Number(r.querySelector(".comp-cost").value) || 0
-            });
-          });
-
-          const dataToRender = currentData.length > 0 ? currentData : (comps.length > 0 ? comps : [{ name: "", qty: 1, unit: "quả", cost: 0 }]);
-          let sum = 0;
-
-          container.innerHTML = dataToRender.map(c => {
-            sum += Number(c.cost) || 0;
-            const unitOpts = unitsList.map(u => `<option value="${u}" ${u === (c.unit || "quả") ? "selected" : ""}>${u}</option>`).join("");
-            return `
-              <div class="comp-row" style="background:#FFFFFF; border:1px solid var(--border); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px;">
-                <div style="display:grid; grid-template-columns:1fr auto; gap:6px; align-items:center;">
-                  <input type="text" class="comp-name" value="${c.name || ""}" placeholder="Tên thành phần (VD: Trứng, Xúc xích...)" style="min-height:38px; font-size:14px; margin:0;" />
-                  <button type="button" class="mini-btn del comp-del" style="min-height:38px; padding:0 12px; font-weight:700;">Xóa</button>
-                </div>
-                <div style="display:grid; grid-template-columns:90px 110px 1fr; gap:6px; align-items:center;">
-                  <input type="number" class="comp-qty" inputmode="decimal" step="any" value="${c.qty !== undefined ? c.qty : 1}" placeholder="SL" style="min-height:38px; font-size:14px; text-align:center; margin:0;" />
-                  <select class="comp-unit" style="min-height:38px; font-size:13.5px; padding:4px 6px; margin:0;">${unitOpts}</select>
-                  <input type="number" class="comp-cost" inputmode="numeric" step="1000" value="${c.cost || ""}" placeholder="Giá vốn (đ)" style="min-height:38px; font-size:14px; margin:0;" />
-                </div>
-              </div>
-            `;
-          }).join("");
-          totalCostLbl.textContent = formatMoney(sum);
+        const priceInputEl = document.getElementById("pos-f-price");
+        if (priceInputEl) {
+          priceInputEl.addEventListener("input", updateItemProfitSummary);
         }
 
-        renderCompRows();
-
-        container.addEventListener("input", () => {
-          let sum = 0;
-          container.querySelectorAll(".comp-row").forEach(r => {
-            sum += Number(r.querySelector(".comp-cost").value) || 0;
+        const addIngBtn = document.getElementById("pos-btn-add-ing");
+        if (addIngBtn) {
+          addIngBtn.addEventListener("click", () => {
+            draftIngredients.push({ name: "", qty: 1, unit: "g", cost: 0 });
+            renderIngredientRows();
           });
-          totalCostLbl.textContent = formatMoney(sum);
-        });
+        }
 
-        container.addEventListener("click", (e) => {
-          const delBtn = e.target.closest(".comp-del");
-          if (delBtn) {
-            const row = delBtn.closest(".comp-row");
-            row.remove();
-            let sum = 0;
-            container.querySelectorAll(".comp-row").forEach(r => {
-              sum += Number(r.querySelector(".comp-cost").value) || 0;
-            });
-            totalCostLbl.textContent = formatMoney(sum);
-          }
-        });
-
-        document.getElementById("btn-add-comp-row").addEventListener("click", () => {
-          const rows = container.querySelectorAll(".comp-row");
-          const currentData = [];
-          rows.forEach(r => {
-            currentData.push({
-              name: r.querySelector(".comp-name").value.trim(),
-              qty: Number(r.querySelector(".comp-qty").value) || 1,
-              unit: r.querySelector(".comp-unit").value,
-              cost: Number(r.querySelector(".comp-cost").value) || 0
-            });
-          });
-          currentData.push({ name: "", qty: 1, unit: "cái", cost: 0 });
-          let sum = 0;
-          container.innerHTML = currentData.map(c => {
-            sum += Number(c.cost) || 0;
-            const unitOpts = unitsList.map(u => `<option value="${u}" ${u === (c.unit || "cái") ? "selected" : ""}>${u}</option>`).join("");
-            return `
-              <div class="comp-row" style="background:#FFFFFF; border:1px solid var(--border); border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px;">
-                <div style="display:grid; grid-template-columns:1fr auto; gap:6px; align-items:center;">
-                  <input type="text" class="comp-name" value="${c.name || ""}" placeholder="Tên thành phần..." style="min-height:38px; font-size:14px; margin:0;" />
-                  <button type="button" class="mini-btn del comp-del" style="min-height:38px; padding:0 12px; font-weight:700;">Xóa</button>
-                </div>
-                <div style="display:grid; grid-template-columns:90px 110px 1fr; gap:6px; align-items:center;">
-                  <input type="number" class="comp-qty" inputmode="decimal" step="any" value="${c.qty !== undefined ? c.qty : 1}" placeholder="SL" style="min-height:38px; font-size:14px; text-align:center; margin:0;" />
-                  <select class="comp-unit" style="min-height:38px; font-size:13.5px; padding:4px 6px; margin:0;">${unitOpts}</select>
-                  <input type="number" class="comp-cost" inputmode="numeric" step="1000" value="${c.cost || ""}" placeholder="Giá vốn (đ)" style="min-height:38px; font-size:14px; margin:0;" />
-                </div>
-              </div>
-            `;
-          }).join("");
-          totalCostLbl.textContent = formatMoney(sum);
-        });
-
-        modalBg.classList.add("open");
-
-        document.getElementById("pm-f-cancel").addEventListener("click", openPosMenuSettingsModal);
-        document.getElementById("pm-f-save").addEventListener("click", () => {
-          const name = document.getElementById("pm-f-name").value.trim();
-          const price = Number(document.getElementById("pm-f-price").value) || 0;
-          const group = document.getElementById("pm-f-group").value;
-          if (!name || price <= 0) {
-            showToast("Vui lòng nhập tên món và giá bán hợp lệ!");
-            return;
-          }
-
-          const recipeComponents = [];
-          let totalCostCalc = 0;
-          container.querySelectorAll(".comp-row").forEach(r => {
-            const cName = r.querySelector(".comp-name").value.trim();
-            const cQty = Number(r.querySelector(".comp-qty").value) || 1;
-            const cUnit = r.querySelector(".comp-unit").value;
-            const cCost = Number(r.querySelector(".comp-cost").value) || 0;
-            if (cName || cCost > 0) {
-              recipeComponents.push({ name: cName || "Thành phần", qty: cQty, unit: cUnit, cost: cCost });
-              totalCostCalc += cCost;
+        const ingListContainer = document.getElementById("pos-ing-list");
+        if (ingListContainer) {
+          ingListContainer.addEventListener("input", (e) => {
+            const row = e.target.closest("[data-ing-idx]");
+            if (!row) return;
+            const i = Number(row.dataset.ingIdx);
+            if (e.target.classList.contains("ing-name-in")) draftIngredients[i].name = e.target.value;
+            if (e.target.classList.contains("ing-qty-in")) draftIngredients[i].qty = Number(e.target.value) || 0;
+            if (e.target.classList.contains("ing-cost-in")) {
+              draftIngredients[i].cost = Number(e.target.value) || 0;
+              updateItemProfitSummary();
             }
           });
 
-          const updated = {
-            id: item.id,
-            name,
-            desc: document.getElementById("pm-f-desc").value.trim(),
-            price,
-            costPrice: totalCostCalc,
-            recipeComponents,
-            ingredients: recipeComponents.map(x => `${x.qty} ${x.unit} ${x.name}`),
-            group,
-            chaoCount: isComboGroupKey(group) ? 1 : 0
-          };
-          if (isNew) {
-            posItemsList.push(updated);
-          } else {
-            posItemsList[idx] = updated;
-          }
-          savePosMenu();
-          renderAll();
-          openPosMenuSettingsModal();
-          showToast(isNew ? `Đã thêm món "${name}"` : `Đã cập nhật "${name}"`);
-        });
+          ingListContainer.addEventListener("change", (e) => {
+            const row = e.target.closest("[data-ing-idx]");
+            if (!row) return;
+            const i = Number(row.dataset.ingIdx);
+            if (e.target.classList.contains("ing-unit-in")) draftIngredients[i].unit = e.target.value;
+          });
+
+          ingListContainer.addEventListener("click", (e) => {
+            const delBtn = e.target.closest(".ing-del-btn");
+            if (!delBtn) return;
+            const row = delBtn.closest("[data-ing-idx]");
+            if (!row) return;
+            const i = Number(row.dataset.ingIdx);
+            draftIngredients.splice(i, 1);
+            renderIngredientRows();
+          });
+        }
+
+        const backBtn = document.getElementById("pos-f-back");
+        if (backBtn) {
+          backBtn.addEventListener("click", openPosMenuSettingsModal);
+        }
+
+        const saveBtn = document.getElementById("pos-f-save");
+        if (saveBtn) {
+          saveBtn.addEventListener("click", () => {
+            const nameEl = document.getElementById("pos-f-name");
+            const priceEl = document.getElementById("pos-f-price");
+            const groupEl = document.getElementById("pos-f-group");
+            const descEl = document.getElementById("pos-f-desc");
+
+            const name = nameEl ? nameEl.value.trim() : "";
+            const price = priceEl ? (Number(priceEl.value) || 0) : 0;
+            if (!name || price <= 0) {
+              showToast("Vui lòng nhập tên món và giá bán hợp lệ!");
+              return;
+            }
+            const groupVal = groupEl ? groupEl.value : "combo";
+            item.name = name;
+            item.price = price;
+            item.group = groupVal;
+            item.desc = descEl ? descEl.value.trim() : "";
+            item.chaoCount = isComboGroupKey(groupVal) ? 1 : 0;
+            item.ingredients = draftIngredients.filter(x => x.name.trim() !== "");
+
+            if (isNew) {
+              posItemsList.push(item);
+            } else {
+              posItemsList[idx] = item;
+            }
+            savePosMenu();
+            renderPosMenu();
+            renderCategorySelects();
+            openPosMenuSettingsModal();
+            showToast(isNew ? "Đã thêm món mới!" : "Đã cập nhật món!");
+          });
+        }
       }
 
       document.getElementById("btn-open-pos-settings").addEventListener("click", openPosMenuSettingsModal);
 
-      // ======================================================================
-      // KHỞI TẠO TOÀN BỘ GIAO DIỆN
-      // ======================================================================
       function renderAll() {
-        renderCategorySelects();
-        renderPosMenu();
-        renderPosDayStats();
-        updatePosCartUI();
         renderJournalPreview();
         renderReport();
         renderAnalysis();
         renderMaterialsView();
         renderRecipesView();
-        renderReconcileBook();
+        renderPosMenu();
+        updatePosCartUI();
+        renderPosDayStats();
+        renderCategorySelects();
       }
 
       renderAll();
